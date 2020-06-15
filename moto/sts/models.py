@@ -100,5 +100,13 @@ class STSBackend(BaseBackend):
         self.assumed_roles.append(role)
         return role
 
+    def describe_workspaces(**kwargs):
+        import json
+        fp = open('fixtures/data_mock.json', 'r')
+        data = json.load(fp)
+        if kwargs:
+            raise("no don't do that no arguments for now")
+        return data
+
 
 sts_backend = STSBackend()

@@ -11,7 +11,7 @@ import sure  # noqa
 
 
 from moto import mock_sts, mock_sts_deprecated, mock_iam, settings
-from moto.core import ACCOUNT_ID
+# from moto.core import ACCOUNT_ID
 from moto.sts.responses import MAX_FEDERATION_TOKEN_POLICY_LENGTH
 
 
@@ -363,3 +363,13 @@ def test_federation_token_with_too_long_policy():
     exc.exception.response["Error"]["Message"].should.contain(
         str(MAX_FEDERATION_TOKEN_POLICY_LENGTH)
     )
+
+@mock_sts
+def test_describe_workspaces():
+    client = boto3.client("sts", region_name="us-east-1")
+    session = Session[aws_access_key_id=response['Credentials']['AccessKeyId']
+    client.describe_workspaces()
+
+    pass
+
+test_describe_workspaces()
