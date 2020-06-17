@@ -86,7 +86,7 @@ class WorkspaceResponse(BaseResponse):
         reqs = self._get_param("RebootWorkspaceRequests")
         workspace_id = reqs[0]["WorkspaceId"]
 
-        response = self.workspace_backend.start_workspaces(workspace_id)
+        response = self.workspace_backend.reboot_workspaces(workspace_id)
         # response = {"FailedRequests": []}
 
         # FIXME: is this right?
