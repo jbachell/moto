@@ -153,7 +153,7 @@ class WorkspaceBackend(BaseBackend):
         return workspace.start()
 
     def reboot_workspaces(self, id):
-        workspace self.workspaces.filter(workspace_id=id)
+        workspace  = self.workspaces.filter(workspace_id=id)
         if not workspace:
             raise WorkspaceDoesNotExist(
                 "Workspace Does Not Exist: '" + workspace_id + "'"
