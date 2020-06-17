@@ -50,31 +50,8 @@ class WorkspaceResponse(BaseResponse):
     def describe_workspaces(self):
         # FIXME: handle filtering
         list_all = self.workspace_backend.describe_workspaces()
-        list_all = sorted(
-            [
-                {
-                    "WorkspaceId": ws.workspace_id,
-                    "DirectoryId": ws.directory_id,
-                    "UserName": ws.user_name,
-                    "IpAddress": ws.ip_address,
-                    "State": ws.state,
-                    "BundleId": ws.bundle_id,
-                    "SubnetId": ws.subnet_id,
-                    "ComputerName": ws.computer_name,
-                    "WorkspaceProperties": {
-                        "RunningMode": "AUTO_STOP",
-                        "RunningModeAutoStopTimeoutInMinutes": 60,
-                        "RootVolumeSizeGib": 80,
-                        "UserVolumeSizeGib": 50,
-                        "ComputeTypeName": "STANDARD"
-                    },
-                    "ModificationStates": []
-                }
-                for ws in list_all
-            ],
-            key=lambda x: x["UserName"],
-        )
-        response = {"Workspaces": list_all, sample_responseMetaData}
+
+        response = {"Workspaces": list_all, "ResponseMetadata": sample_responseMetaData}
         return json.dumps(response)
 
     @amzn_request_id
