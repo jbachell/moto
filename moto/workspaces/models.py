@@ -29,13 +29,46 @@ class Workspace:
         self.modification_states = modification_states
 
     def stop(self):
+        if self.state == "STOPPED":
+            response = {'FailedRequests': [
+                    {
+                        "ErrorCode": "ResourceInvalidState.Workspace",
+                        "WorkspaceId": "" + self.workspace_id,
+                        "ErrorMessage": "The specified WorkSpace has an invalid state for this operation."
+                    }
+                ]
+            }
+            return response
         self.state = "STOPPED"
+        return {'FailedRequests': []}
 
     def start(self):
+        if self.state == "AVAILABLE":
+            response = {'FailedRequests': [
+                    {
+                        "ErrorCode": "ResourceInvalidState.Workspace",
+                        "WorkspaceId": "" + self.workspace_id,
+                        "ErrorMessage": "The specified WorkSpace has an invalid state for this operation."
+                    }
+                ]
+            }
+            return response
         self.state = "AVAILABLE"
+        return {'FailedRequests': []}
 
     def reboot(self):
+        if self.state == "REBOOTING":
+            response = {'FailedRequests': [
+                    {
+                        "ErrorCode": "ResourceInvalidState.Workspace",
+                        "WorkspaceId": "" + self.workspace_id,
+                        "ErrorMessage": "The specified WorkSpace has an invalid state for this operation."
+                    }
+                ]
+            }
+            return response
         self.state = "REBOOTING"
+        return {'FailedRequests': []}
 
     # def rebuild(self):
     #     self.state = ""
@@ -107,8 +140,7 @@ class WorkspaceBackend(BaseBackend):
             raise WorkspaceDoesNotExist(
                 "Workspace Does Not Exist: '" + workspace_id + "'"
             )
-        workspace.stop()
-        return workspace
+        return workspace.stop()
 
     def start_workspaces(self, workspace_id):
         workspace = next(
@@ -118,8 +150,7 @@ class WorkspaceBackend(BaseBackend):
             raise WorkspaceDoesNotExist(
                 "Workspace Does Not Exist: '" + workspace_id + "'"
             )
-        workspace.start()
-        return workspace
+        return workspace.start()
 
     def reboot_workspaces(self, workspace_id):
         workspace = next(
@@ -129,8 +160,7 @@ class WorkspaceBackend(BaseBackend):
             raise WorkspaceDoesNotExist(
                 "Workspace Does Not Exist: '" + workspace_id + "'"
             )
-        workspace.reboot()
-        return workspace
+        return workspace.reboot()
 
     def reset(self):
         region_name = self.region_name
