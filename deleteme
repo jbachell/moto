@@ -1,0 +1,8 @@
+        temp = {'FailedRequests': [
+                {
+                    "ErrorCode": "ResourceInvalidState.Workspace", 
+                    "WorkspaceId": "" + id_in, 
+                    "ErrorMessage": "The specified WorkSpace has an invalid state for this operation."
+                }
+            ]
+        }
