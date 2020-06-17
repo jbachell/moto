@@ -71,3 +71,13 @@ class WorkspaceResponse(BaseResponse):
         self.workspace_backend.stop_workspaces(workspace_id)
         response = {"FailedRequests": []}
         return 200, {}, json.dumps(response)
+
+    @amzn_request_id
+    def start_workspaces(self):
+        # FIXME: handle multi stop
+        reqs = self._get_param("StopWorkspaceRequests")
+        workspace_id = reqs[0]["WorkspaceId"]
+
+        self.workspace_backend.stop_workspaces(workspace_id)
+        response = {"FailedRequests": []}
+        return 200, {}, json.dumps(response)

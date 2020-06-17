@@ -22,14 +22,14 @@ class Workspace:
         self.directory_id = directory_id
         self.user_name = user_name
         self.ip_address = ip_address
-        self.status = status
+        self.state = state
         self.bundle_id = bundle_id
         self.subnet_id = subnet_id
         self.computer_name = computer_name
         self.modification_states = modification_states
 
     def stop(self):
-        self.status = "STOPPED"
+        self.state = "STOPPED"
 
 
 class WorkspaceBackend(BaseBackend):
