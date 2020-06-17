@@ -70,7 +70,7 @@ class WorkspaceResponse(BaseResponse):
     @amzn_request_id
     def start_workspaces(self):
         # FIXME: handle multi stop
-        reqs = self._get_param("StopWorkspaceRequests")
+        reqs = self._get_param("StartWorkspaceRequests")
         workspace_id = reqs[0]["WorkspaceId"]
 
         response = self.workspace_backend.start_workspaces(workspace_id)
@@ -83,7 +83,7 @@ class WorkspaceResponse(BaseResponse):
     @amzn_request_id
     def reboot_workspaces(self):
         # FIXME: handle multi stop
-        reqs = self._get_param("StopWorkspaceRequests")
+        reqs = self._get_param("RebootWorkspaceRequests")
         workspace_id = reqs[0]["WorkspaceId"]
 
         response = self.workspace_backend.start_workspaces(workspace_id)
