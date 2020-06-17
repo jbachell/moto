@@ -59,7 +59,9 @@ class BaseMockAWS(object):
 
     def __call__(self, func, reset=True):
         if inspect.isclass(func):
+            print("in here")
             return self.decorate_class(func)
+        print("in there")
         return self.decorate_callable(func, reset)
 
     def __enter__(self):

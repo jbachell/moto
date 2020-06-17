@@ -364,12 +364,27 @@ def test_federation_token_with_too_long_policy():
         str(MAX_FEDERATION_TOKEN_POLICY_LENGTH)
     )
 
-@mock_sts
+#@mock_sts
 def test_describe_workspaces():
-    client = boto3.client("sts", region_name="us-east-1")
-    session = Session[aws_access_key_id=response['Credentials']['AccessKeyId']
-    client.describe_workspaces()
+    from boto3.session import Session
 
-    pass
+    mock = mock_sts()
+    mock.start() 
+
+    roleArn = 'arn:aws:iam::1:role/hi'
+    base_client = boto3.client("sts", region_name="us-east-1")
+    response = base_client.assume_role(
+                    RoleArn=roleArn, RoleSessionName='altitude-dashboard')
+    session = Session(aws_access_key_id=response['Credentials']['AccessKeyId'],
+                          aws_secret_access_key=response['Credentials']['SecretAccessKey'],
+                          aws_session_token=response['Credentials']['SessionToken'])
+    cli = session.client('workspaces')
+
+    # try:
+    cli.describe_workspaces()
+    #base_client.describe_workspaces()
+    # except:
+    #     print("failure")
+    mock.stop()
 
 test_describe_workspaces()
