@@ -62,14 +62,47 @@ class WorkspaceResponse(BaseResponse):
 
         response = self.workspace_backend.stop_workspaces(workspace_id)
         # response = {"FailedRequests": []}
-        return 200, {}, json.dumps(response)
+
+        # FIXME: is this right?
+        #return 200, {}, json.dumps(response)
+        return json.dumps(response)
 
     @amzn_request_id
     def start_workspaces(self):
         # FIXME: handle multi stop
-        reqs = self._get_param("StartWorkspaceRequests")
+        reqs = self._get_param("StopWorkspaceRequests")
         workspace_id = reqs[0]["WorkspaceId"]
 
-        self.workspace_backend.start_workspaces(workspace_id)
-        response = {"FailedRequests": []}
-        return 200, {}, json.dumps(response)
+        response = self.workspace_backend.start_workspaces(workspace_id)
+        # response = {"FailedRequests": []}
+
+        # FIXME: is this right?
+        #return 200, {}, json.dumps(response)
+        return json.dumps(response)
+
+    @amzn_request_id
+    def reboot_workspaces(self):
+        # FIXME: handle multi stop
+        reqs = self._get_param("StopWorkspaceRequests")
+        workspace_id = reqs[0]["WorkspaceId"]
+
+        response = self.workspace_backend.start_workspaces(workspace_id)
+        # response = {"FailedRequests": []}
+
+        # FIXME: is this right?
+        #return 200, {}, json.dumps(response)
+        return json.dumps(response)
+
+    @amzn_request_id
+    def start_workspaces(self):
+        pass
+        # # FIXME: handle multi stop
+        # reqs = self._get_param("StopWorkspaceRequests")
+        # workspace_id = reqs[0]["WorkspaceId"]
+        #
+        # response = self.workspace_backend.start_workspaces(workspace_id)
+        # # response = {"FailedRequests": []}
+        #
+        # # FIXME: is this right?
+        # #return 200, {}, json.dumps(response)
+        # return json.dumps(response)
