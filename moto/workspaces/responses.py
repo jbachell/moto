@@ -7,6 +7,21 @@ from moto.core.utils import amzn_request_id
 from .exceptions import AWSError
 from .models import workspace_backends
 
+sample_responseMetaData =  {
+    "ResponseMetadata": {
+        "RequestId": "7d5dedc0-d7ed-4ab8-959c-e5138023aecb",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "x-amzn-requestid": "7d5dedc0-d7ed-4ab8-959c-e5138023aecb",
+            "content-type": "application/x-amz-json-1.1",
+            "content-length": "12751",
+            "date": "Mon, 08 Jun 2020 19:28:45 GMT"
+        },
+        "RetryAttempts": 0
+    }
+}
+
+
 class WorkspaceResponse(BaseResponse):
     @property
     def workspace_backend(self):
@@ -59,8 +74,8 @@ class WorkspaceResponse(BaseResponse):
             ],
             key=lambda x: x["UserName"],
         )
-        response = {"Workspaces": list_all, }
-        return 200, {}, json.dumps(response)
+        response = {"Workspaces": list_all, sample_responseMetaData}
+        return json.dumps(response)
 
     @amzn_request_id
     def stop_workspaces(self):
