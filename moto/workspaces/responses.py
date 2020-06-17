@@ -59,7 +59,7 @@ class WorkspaceResponse(BaseResponse):
             ],
             key=lambda x: x["UserName"],
         )
-        response = {"Workspaces": list_all}
+        response = {"Workspaces": list_all, }
         return 200, {}, json.dumps(response)
 
     @amzn_request_id
@@ -68,16 +68,16 @@ class WorkspaceResponse(BaseResponse):
         reqs = self._get_param("StopWorkspaceRequests")
         workspace_id = reqs[0]["WorkspaceId"]
 
-        self.workspace_backend.stop_workspaces(workspace_id)
-        response = {"FailedRequests": []}
+        response = self.workspace_backend.stop_workspaces(workspace_id)
+        # response = {"FailedRequests": []}
         return 200, {}, json.dumps(response)
 
     @amzn_request_id
     def start_workspaces(self):
         # FIXME: handle multi stop
-        reqs = self._get_param("StopWorkspaceRequests")
+        reqs = self._get_param("StartWorkspaceRequests")
         workspace_id = reqs[0]["WorkspaceId"]
 
-        self.workspace_backend.stop_workspaces(workspace_id)
+        self.workspace_backend.start_workspaces(workspace_id)
         response = {"FailedRequests": []}
         return 200, {}, json.dumps(response)

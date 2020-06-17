@@ -31,6 +31,15 @@ class Workspace:
     def stop(self):
         self.state = "STOPPED"
 
+    def start(self):
+        self.state = "AVAILABLE"
+
+    def reboot(self):
+        self.state = "REBOOTING"
+
+    # def rebuild(self):
+    #     self.state = ""
+
 
 class WorkspaceBackend(BaseBackend):
     accepted_role_arn_format = re.compile(
@@ -75,6 +84,28 @@ class WorkspaceBackend(BaseBackend):
                 "Workspace Does Not Exist: '" + workspace_id + "'"
             )
         workspace.stop()
+        return workspace
+
+    def start_workspaces(self, workspace_id):
+        workspace = next(
+            (x for x in self.workspaces if x.workspace_id == workspace_id), None
+        )
+        if not workspace:
+            raise WorkspaceDoesNotExist(
+                "Workspace Does Not Exist: '" + workspace_id + "'"
+            )
+        workspace.start()
+        return workspace
+
+    def reboot_workspaces(self, workspace_id):
+        workspace = next(
+            (x for x in self.workspaces if x.workspace_id == workspace_id), None
+        )
+        if not workspace:
+            raise WorkspaceDoesNotExist(
+                "Workspace Does Not Exist: '" + workspace_id + "'"
+            )
+        workspace.reboot()
         return workspace
 
     def reset(self):
