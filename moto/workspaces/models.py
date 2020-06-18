@@ -168,7 +168,7 @@ class WorkspaceBackend(BaseBackend):
             raise WorkspaceDoesNotExist(
                 "Workspace Does Not Exist: '" + workspace_id + "'"
             )
-        print(workspace[0].reboot())
+        print(workspace[0])
         return workspace[0].reboot()
 
     def reset(self):
