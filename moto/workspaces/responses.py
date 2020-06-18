@@ -111,7 +111,7 @@ class WorkspaceResponse(BaseResponse):
         return json.dumps(response)
 
     @amzn_request_id
-    def start_workspaces(self):
+    def rebuild_workspaces(self):
         pass
         # # FIXME: handle multi stop
         # reqs = self._get_param("StopWorkspaceRequests")
