@@ -164,7 +164,7 @@ class WorkspaceBackend(BaseBackend):
     def start_workspaces(self, id):
         #FIXME: can be more efficient??
         workspace = list(filter(lambda x: x.workspace_id == id, self.workspaces))
-        if not workspace:
+        if not workspace[0]:
             raise WorkspaceDoesNotExist(
                 "Workspace Does Not Exist: '" + workspace_id + "'"
             )
