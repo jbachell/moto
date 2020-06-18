@@ -51,6 +51,7 @@ class WorkspaceResponse(BaseResponse):
             response = {
                 "FailedRequests": []
             }
+            #FIXME: right return here?
             #return 200, {}, json.dumps(response)
             return state_machine
         except AWSError as err:
@@ -82,6 +83,7 @@ class WorkspaceResponse(BaseResponse):
         # FIXME: handle multi stop
         reqs = self._get_param("StartWorkspaceRequests")
         workspace_id = reqs[0]["WorkspaceId"]
+        print(workspace_id)
 
         response = self.workspace_backend.start_workspaces(workspace_id)
         # response = {"FailedRequests": []}
