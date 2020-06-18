@@ -115,7 +115,7 @@ class WorkspaceBackend(BaseBackend):
         return workspace
 
     def describe_workspaces(self):
-        self.workspaces = sorted(
+        return sorted(
             [
                 {
                     "WorkspaceId": ws.workspace_id,
@@ -139,7 +139,6 @@ class WorkspaceBackend(BaseBackend):
             ],
             key=lambda x: x["UserName"],
         )
-        return self.workspaces
 
     def stop_workspaces(self, workspace_id):
         workspace = next(
