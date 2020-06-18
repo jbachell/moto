@@ -163,12 +163,13 @@ class WorkspaceBackend(BaseBackend):
 
     def reboot_workspaces(self, id):
         #FIXME: can be more efficient
-        workspace = list(filter(lambda x: x['WorkspaceId'] == id, self.workspaces))[0]
+        workspace = list(filter(lambda x: x['WorkspaceId'] == id, self.workspaces))
         if not workspace:
             raise WorkspaceDoesNotExist(
                 "Workspace Does Not Exist: '" + workspace_id + "'"
             )
-        return workspace.reboot()
+        print(workspace[0].reboot())
+        return workspace[0].reboot()
 
     def reset(self):
         region_name = self.region_name
