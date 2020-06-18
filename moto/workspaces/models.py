@@ -25,6 +25,22 @@ from .exceptions import (
 import random
 import string
 
+
+sample_responseMetaData =  {
+    "ResponseMetadata": {
+        "RequestId": "7d5dedc0-d7ed-4ab8-959c-e5138023aecb",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "x-amzn-requestid": "7d5dedc0-d7ed-4ab8-959c-e5138023aecb",
+            "content-type": "application/x-amz-json-1.1",
+            "content-length": "12751",
+            "date": "Mon, 08 Jun 2020 19:28:45 GMT"
+        },
+        "RetryAttempts": 0
+    }
+}
+
+
 class Workspace:
     def __init__(self, workspace_id, directory_id, user_name, ip_address, state, bundle_id, subnet_id, computer_name, modification_states):
         self.workspace_id = workspace_id
@@ -39,13 +55,14 @@ class Workspace:
 
     def resp_workspace_invalid_state(self):
         return {'FailedRequests': [
-                    {
-                        "ErrorCode": "ResourceInvalidState.Workspace",
-                        "WorkspaceId": "" + self.workspace_id,
-                        "ErrorMessage": "The specified WorkSpace has an invalid state for this operation."
-                    }
-                ]
-            }
+                        {
+                            "ErrorCode": "ResourceInvalidState.Workspace",
+                            "WorkspaceId": "" + self.workspace_id,
+                            "ErrorMessage": "The specified WorkSpace has an invalid state for this operation."
+                        }
+                    ],
+                'ResponseMetadata': sample_responseMetaData
+                }
 
     def stop(self):
         if self.state == "STOPPED":
@@ -86,7 +103,8 @@ class WorkspaceBackend(BaseBackend):
                     "WorkspaceId": "" + id,
                     "ErrorMessage": "The specified WorkSpace could not be found."
                 }
-            ]
+            ],
+            'ResponseMetadata': sample_responseMetaData
         }
     # FIXME: add proper params
     def create_workspaces(self, directory_id, bundle_id, user_name, tags=None):

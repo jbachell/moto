@@ -68,14 +68,16 @@ class WorkspaceResponse(BaseResponse):
     @amzn_request_id
     def stop_workspaces(self):
         # FIXME: handle multi stop
+        result = {'FailedRequests': []}
         reqs = self._get_param("StopWorkspaceRequests")
-        workspace_id = reqs[0]["WorkspaceId"]
-
-        response = self.workspace_backend.stop_workspaces(workspace_id)
+        for i in reqs:
+            workspace_id = i["WorkspaceId"]
+            response = self.workspace_backend.stop_workspaces(workspace_id)
+            result['FailedRequests'].append(response['FailedRequests'])
         # response = {"FailedRequests": []}
 
         # FIXME: is this right?
-        return 200, {}, json.dumps(response)
+        return 200, {}, json.dumps(result)
         #return json.dumps(response)
 
     @amzn_request_id
