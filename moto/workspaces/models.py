@@ -37,9 +37,8 @@ class Workspace:
         self.computer_name = computer_name
         self.modification_states = modification_states
 
-    def stop(self):
-        if self.state == "STOPPED":
-            response = {'FailedRequests': [
+    def resp_workspace_invalid_state(self):
+        return {'FailedRequests': [
                     {
                         "ErrorCode": "ResourceInvalidState.Workspace",
                         "WorkspaceId": "" + self.workspace_id,
@@ -47,35 +46,22 @@ class Workspace:
                     }
                 ]
             }
-            return response
+
+    def stop(self):
+        if self.state == "STOPPED":
+            return self.resp_workspace_invalid_state()
         self.state = "STOPPED"
         return {'FailedRequests': []}
 
     def start(self):
         if self.state == "AVAILABLE":
-            response = {'FailedRequests': [
-                    {
-                        "ErrorCode": "ResourceInvalidState.Workspace",
-                        "WorkspaceId": "" + self.workspace_id,
-                        "ErrorMessage": "The specified WorkSpace has an invalid state for this operation."
-                    }
-                ]
-            }
-            return response
+            return self.resp_workspace_invalid_state()
         self.state = "AVAILABLE"
         return {'FailedRequests': []}
 
     def reboot(self):
         if self.state == "REBOOTING":
-            response = {'FailedRequests': [
-                    {
-                        "ErrorCode": "ResourceInvalidState.Workspace",
-                        "WorkspaceId": "" + self.workspace_id,
-                        "ErrorMessage": "The specified WorkSpace has an invalid state for this operation."
-                    }
-                ]
-            }
-            return response
+            return self.resp_workspace_invalid_state()
         self.state = "REBOOTING"
         return {'FailedRequests': []}
 
@@ -93,6 +79,15 @@ class WorkspaceBackend(BaseBackend):
         self.region_name = region_name
         self._account_id = None
 
+    def resp_workspace_does_not_exist(self, id):
+        return {'FailedRequests': [
+                {
+                    "ErrorCode": "ResourceNotFound.Workspace",
+                    "WorkspaceId": "" + id,
+                    "ErrorMessage": "The specified WorkSpace could not be found."
+                }
+            ]
+        }
     # FIXME: add proper params
     def create_workspaces(self, directory_id, bundle_id, user_name, tags=None):
         # self._validate_name(name)
@@ -145,9 +140,7 @@ class WorkspaceBackend(BaseBackend):
         #FIXME: can be more efficient??
         workspace = list(filter(lambda x: x.workspace_id == id, self.workspaces))
         if not workspace:
-            raise WorkspaceDoesNotExist(
-                "Workspace Does Not Exist: '" + workspace_id + "'"
-            )
+            return self.resp_workspace_does_not_exist(id)
         # if len(workspace) > 1:
         #     #two workspaces cannot have the same id?
         #     response = {'FailedRequests': [
@@ -206,9 +199,7 @@ class WorkspaceBackend(BaseBackend):
         #FIXME: can be more efficient??
         workspace = list(filter(lambda x: x.workspace_id == id, self.workspaces))
         if not workspace:
-            raise WorkspaceDoesNotExist(
-                "Workspace Does Not Exist: '" + workspace_id + "'"
-            )
+
         # if len(workspace) > 1:
         #     #two workspaces cannot have the same id?
         #     response = {'FailedRequests': [
