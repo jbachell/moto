@@ -90,7 +90,8 @@ class WorkspaceResponse(BaseResponse):
 
         # FIXME: is this right?
         #return 200, {}, json.dumps(response)
-        return 200, response
+        print(response)
+        return 200, json.dumps(response)
 
     @amzn_request_id
     def reboot_workspaces(self):
