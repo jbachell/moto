@@ -199,7 +199,7 @@ class WorkspaceBackend(BaseBackend):
         #FIXME: can be more efficient??
         workspace = list(filter(lambda x: x.workspace_id == id, self.workspaces))
         if not workspace:
-
+            return self.resp_workspace_does_not_exist(id)
         # if len(workspace) > 1:
         #     #two workspaces cannot have the same id?
         #     response = {'FailedRequests': [
