@@ -80,19 +80,22 @@ class WorkspaceResponse(BaseResponse):
 
     @amzn_request_id
     def start_workspaces(self):
-        # FIXME: handle multi stop
-        reqs = self._get_param("StartWorkspaceRequests")
-        workspace_id = reqs[0]["WorkspaceId"]
-        #print(workspace_id)
-        raise AWSError("made it here")
+        try:
+            # FIXME: handle multi stop
+            reqs = self._get_param("StartWorkspaceRequests")
+            workspace_id = reqs[0]["WorkspaceId"]
+            #print(workspace_id)
+            raise AWSError("made it here")
 
-        response = self.workspace_backend.start_workspaces(workspace_id)
-        # response = {"FailedRequests": []}
+            response = self.workspace_backend.start_workspaces(workspace_id)
+            # response = {"FailedRequests": []}
 
-        # FIXME: is this right?
-        #return 200, {}, json.dumps(response)
-        print(response)
-        return 200, json.dumps(response)
+            # FIXME: is this right?
+            #return 200, {}, json.dumps(response)
+            print(response)
+            return 200, json.dumps(response)
+        except:
+            raise AWSError("made it here")
 
     @amzn_request_id
     def reboot_workspaces(self):
