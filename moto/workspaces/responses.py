@@ -93,7 +93,7 @@ class WorkspaceResponse(BaseResponse):
             # FIXME: is this right?
             #return 200, {}, json.dumps(response)
             print(response)
-            return 200, json.dumps(response)
+            return 200, {}, json.dumps(response)
         except:
             raise AWSError("made it here")
 
