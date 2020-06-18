@@ -162,7 +162,8 @@ class WorkspaceBackend(BaseBackend):
         return workspace.start()
 
     def reboot_workspaces(self, id):
-        workspace = list(filter(lambda x: x['WorkspaceId'] == id, self.workspaces))
+        #FIXME: can be more efficient
+        workspace = list(filter(lambda x: x['WorkspaceId'] == id, self.workspaces))[0]
         if not workspace:
             raise WorkspaceDoesNotExist(
                 "Workspace Does Not Exist: '" + workspace_id + "'"
