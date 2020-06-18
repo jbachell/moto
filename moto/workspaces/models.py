@@ -1,3 +1,12 @@
+#
+##
+##
+### NOTE: base code written by arvind.  editted by jbachell
+##
+##
+#
+
+
 import re
 from datetime import datetime
 
@@ -153,7 +162,7 @@ class WorkspaceBackend(BaseBackend):
         return workspace.start()
 
     def reboot_workspaces(self, id):
-        workspace  = self.workspaces.filter(workspace_id=id)
+        workspace = filter(lambda x: x.workspace_id == id, self.workspaces)
         if not workspace:
             raise WorkspaceDoesNotExist(
                 "Workspace Does Not Exist: '" + workspace_id + "'"
