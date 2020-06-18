@@ -104,19 +104,18 @@ class WorkspaceResponse(BaseResponse):
         # response = {"FailedRequests": []}
 
         # FIXME: is this right?
-        #return 200, {}, json.dumps(response)
-        return json.dumps(response)
+        return 200, {}, json.dumps(response)
+        #return json.dumps(response)
 
     @amzn_request_id
     def rebuild_workspaces(self):
-        pass
-        # # FIXME: handle multi stop
-        # reqs = self._get_param("StopWorkspaceRequests")
-        # workspace_id = reqs[0]["WorkspaceId"]
-        #
-        # response = self.workspace_backend.start_workspaces(workspace_id)
-        # # response = {"FailedRequests": []}
-        #
-        # # FIXME: is this right?
-        # #return 200, {}, json.dumps(response)
-        # return json.dumps(response)
+        # FIXME: handle multi stop
+        reqs = self._get_param("RebuildWorkspaceRequests")
+        workspace_id = reqs[0]["WorkspaceId"]
+
+        response = self.workspace_backend.rebuild_workspaces(workspace_id)
+        # response = {"FailedRequests": []}
+
+        # FIXME: is this right?
+        return 200, {}, json.dumps(response)
+        #return json.dumps(response)

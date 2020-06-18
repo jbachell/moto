@@ -202,6 +202,30 @@ class WorkspaceBackend(BaseBackend):
         #     return response
         return workspace[0].reboot()
 
+    def rebuild_workspaces(self, id):
+        #FIXME: can be more efficient??
+        workspace = list(filter(lambda x: x.workspace_id == id, self.workspaces))
+        if not workspace:
+            raise WorkspaceDoesNotExist(
+                "Workspace Does Not Exist: '" + workspace_id + "'"
+            )
+        # if len(workspace) > 1:
+        #     #two workspaces cannot have the same id?
+        #     response = {'FailedRequests': [
+        #             {
+        #                 "ErrorCode": "Workspace",
+        #                 "WorkspaceId": "" + self.workspace_id,
+        #                 "ErrorMessage": "The specified WorkSpace has the same id."
+        #             }
+        #         ]
+        #     }
+        #     return response
+        try:
+            self.workspaces.remove(workspace[0])
+            return {'FailedRequests': []}
+        except:
+            return {'FailedRequests': ["should not be here"]}
+
     def reset(self):
         region_name = self.region_name
         self.__dict__ = {}
