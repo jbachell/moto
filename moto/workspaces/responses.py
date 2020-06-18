@@ -51,7 +51,8 @@ class WorkspaceResponse(BaseResponse):
             response = {
                 "FailedRequests": []
             }
-            return 200, {}, json.dumps(response)
+            #return 200, {}, json.dumps(response)
+            return state_machine
         except AWSError as err:
             return err.response()
 
