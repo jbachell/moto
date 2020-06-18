@@ -75,7 +75,7 @@ class WorkspaceResponse(BaseResponse):
         # response = {"FailedRequests": []}
 
         # FIXME: is this right?
-        return 200, {}, json.dumps(response)
+        #return 200, {}, json.dumps(response)
         #return json.dumps(response)
 
     @amzn_request_id
@@ -89,8 +89,8 @@ class WorkspaceResponse(BaseResponse):
         # response = {"FailedRequests": []}
 
         # FIXME: is this right?
-        return 200, {}, json.dumps(response)
-        #return json.dumps(response)
+        #return 200, {}, json.dumps(response)
+        return response
 
     @amzn_request_id
     def reboot_workspaces(self):
