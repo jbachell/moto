@@ -83,7 +83,8 @@ class WorkspaceResponse(BaseResponse):
         # FIXME: handle multi stop
         reqs = self._get_param("StartWorkspaceRequests")
         workspace_id = reqs[0]["WorkspaceId"]
-        print(workspace_id)
+        #print(workspace_id)
+        raise AWSError("made it here")
 
         response = self.workspace_backend.start_workspaces(workspace_id)
         # response = {"FailedRequests": []}
