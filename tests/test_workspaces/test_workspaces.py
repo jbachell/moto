@@ -107,18 +107,19 @@ def test_describe_workspaces_returns_created_workspaces():
     #lst = client.describe_workspaces()
     #print("jere")
     #print(list(lst['Workspaces']))
+    #print("here")
     client = boto3.client('workspaces', aws_access_key_id='id1',
                               aws_secret_access_key='secret1',
                               aws_session_token='token1')
-
-    workspace = client.create_workspaces(
+    #print("here")
+    temp = client.create_workspaces(
                         Workspaces=[{
                             'DirectoryId': "d-29381asfdw",
                             'BundleId': "wsb-asd42hfg1",
                             'UserName': "ajanedoe1"
                         }]
                     )
-
+    #print("here")
     workspace = client.create_workspaces(
                         Workspaces=[{
                             'DirectoryId': "d-29381asfdw",
@@ -166,6 +167,15 @@ def test_describe_workspaces_returns_created_workspaces():
     print(len(list(lst['Workspaces'])))
     lst["Workspaces"].should.have.length_of(8)
 
+    print(temp)
+
+    client.start_workspaces( StartWorkspaceRequests=[
+                                {
+                                    'WorkspaceId': temp['WorkspaceId']
+                                },
+                            ])
+    lst = client.describe_workspaces()
+    print(list(lst)[0])
 
 def _get_account_id():
     global account_id
