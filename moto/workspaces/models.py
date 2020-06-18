@@ -140,7 +140,7 @@ class WorkspaceBackend(BaseBackend):
             key=lambda x: x["UserName"],
         )
 
-    def stop_workspaces(self, workspace_id):
+    def stop_workspaces(self, id):
         #FIXME: can be more efficient??
         workspace = list(filter(lambda x: x.workspace_id == id, self.workspaces))
         if not workspace:
@@ -161,7 +161,7 @@ class WorkspaceBackend(BaseBackend):
         return workspace[0].stop()
 
 
-    def start_workspaces(self, workspace_id):
+    def start_workspaces(self, id):
         #FIXME: can be more efficient??
         workspace = list(filter(lambda x: x.workspace_id == id, self.workspaces))
         if not workspace:
