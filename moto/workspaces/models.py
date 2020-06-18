@@ -115,30 +115,30 @@ class WorkspaceBackend(BaseBackend):
         return workspace
 
     def describe_workspaces(self):
-        self.workspaces = sorted(
-            [
-                {
-                    "WorkspaceId": ws.workspace_id,
-                    "DirectoryId": ws.directory_id,
-                    "UserName": ws.user_name,
-                    "IpAddress": ws.ip_address,
-                    "State": ws.state,
-                    "BundleId": ws.bundle_id,
-                    "SubnetId": ws.subnet_id,
-                    "ComputerName": ws.computer_name,
-                    "WorkspaceProperties": {
-                        "RunningMode": "AUTO_STOP",
-                        "RunningModeAutoStopTimeoutInMinutes": 60,
-                        "RootVolumeSizeGib": 80,
-                        "UserVolumeSizeGib": 50,
-                        "ComputeTypeName": "STANDARD"
-                    },
-                    "ModificationStates": []
-                }
-                for ws in self.workspaces
-            ],
-            key=lambda x: x["UserName"],
-        )
+        # self.workspaces = sorted(
+        #     [
+        #         {
+        #             "WorkspaceId": ws.workspace_id,
+        #             "DirectoryId": ws.directory_id,
+        #             "UserName": ws.user_name,
+        #             "IpAddress": ws.ip_address,
+        #             "State": ws.state,
+        #             "BundleId": ws.bundle_id,
+        #             "SubnetId": ws.subnet_id,
+        #             "ComputerName": ws.computer_name,
+        #             "WorkspaceProperties": {
+        #                 "RunningMode": "AUTO_STOP",
+        #                 "RunningModeAutoStopTimeoutInMinutes": 60,
+        #                 "RootVolumeSizeGib": 80,
+        #                 "UserVolumeSizeGib": 50,
+        #                 "ComputeTypeName": "STANDARD"
+        #             },
+        #             "ModificationStates": []
+        #         }
+        #         for ws in self.workspaces
+        #     ],
+        #     key=lambda x: x["UserName"],
+        # )
         return self.workspaces
 
     def stop_workspaces(self, workspace_id):
