@@ -141,33 +141,64 @@ class WorkspaceBackend(BaseBackend):
         )
 
     def stop_workspaces(self, workspace_id):
-        workspace = next(
-            (x for x in self.workspaces if x.workspace_id == workspace_id), None
-        )
-        if not workspace:
-            raise WorkspaceDoesNotExist(
-                "Workspace Does Not Exist: '" + workspace_id + "'"
-            )
-        return workspace.stop()
-
-    def start_workspaces(self, workspace_id):
-        workspace = next(
-            (x for x in self.workspaces if x.workspace_id == workspace_id), None
-        )
-        if not workspace:
-            raise WorkspaceDoesNotExist(
-                "Workspace Does Not Exist: '" + workspace_id + "'"
-            )
-        return workspace.start()
-
-    def reboot_workspaces(self, id):
-        #FIXME: can be more efficient
+        #FIXME: can be more efficient??
         workspace = list(filter(lambda x: x.workspace_id == id, self.workspaces))
         if not workspace:
             raise WorkspaceDoesNotExist(
                 "Workspace Does Not Exist: '" + workspace_id + "'"
             )
-        print(workspace[0])
+        # if len(workspace) > 1:
+        #     #two workspaces cannot have the same id?
+        #     response = {'FailedRequests': [
+        #             {
+        #                 "ErrorCode": "Workspace",
+        #                 "WorkspaceId": "" + self.workspace_id,
+        #                 "ErrorMessage": "The specified WorkSpace has the same id."
+        #             }
+        #         ]
+        #     }
+        #     return response
+        return workspace[0].stop()
+
+
+    def start_workspaces(self, workspace_id):
+        #FIXME: can be more efficient??
+        workspace = list(filter(lambda x: x.workspace_id == id, self.workspaces))
+        if not workspace:
+            raise WorkspaceDoesNotExist(
+                "Workspace Does Not Exist: '" + workspace_id + "'"
+            )
+        # if len(workspace) > 1:
+        #     #two workspaces cannot have the same id?
+        #     response = {'FailedRequests': [
+        #             {
+        #                 "ErrorCode": "Workspace",
+        #                 "WorkspaceId": "" + self.workspace_id,
+        #                 "ErrorMessage": "The specified WorkSpace has the same id."
+        #             }
+        #         ]
+        #     }
+        #     return response
+        return workspace[0].start()
+
+    def reboot_workspaces(self, id):
+        #FIXME: can be more efficient??
+        workspace = list(filter(lambda x: x.workspace_id == id, self.workspaces))
+        if not workspace:
+            raise WorkspaceDoesNotExist(
+                "Workspace Does Not Exist: '" + workspace_id + "'"
+            )
+        # if len(workspace) > 1:
+        #     #two workspaces cannot have the same id?
+        #     response = {'FailedRequests': [
+        #             {
+        #                 "ErrorCode": "Workspace",
+        #                 "WorkspaceId": "" + self.workspace_id,
+        #                 "ErrorMessage": "The specified WorkSpace has the same id."
+        #             }
+        #         ]
+        #     }
+        #     return response
         return workspace[0].reboot()
 
     def reset(self):
