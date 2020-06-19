@@ -15,6 +15,7 @@ from moto.core.responses import BaseResponse
 from moto.core.utils import amzn_request_id
 from .exceptions import AWSError
 from .models import workspace_backends
+from .exceptions import (ClientError)
 
 sample_responseMetaData =  {
     "ResponseMetadata": {
