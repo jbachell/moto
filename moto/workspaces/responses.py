@@ -73,7 +73,7 @@ class WorkspaceResponse(BaseResponse):
         for i in reqs:
             workspace_id = i["WorkspaceId"]
             response = self.workspace_backend.stop_workspaces(workspace_id)
-            result['FailedRequests'].append(response['FailedRequests'])
+            result['FailedRequests'] = result['FailedRequests'] + (response['FailedRequests'])
             #result.setdefault('FailedRequests', []).append(response['FailedRequests'])
         # response = {"FailedRequests": []}
 
