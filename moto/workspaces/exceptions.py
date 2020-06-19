@@ -39,3 +39,7 @@ class InvalidName(AWSError):
 class WorkspaceDoesNotExist(AWSError):
     TYPE = "WorkspaceDoesNotExist"
     STATUS = 400
+
+class ClientError(AWSError):
+    TYPE = "ValidationError"
+    STATUS = 400

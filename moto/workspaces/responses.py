@@ -53,7 +53,6 @@ class WorkspaceResponse(BaseResponse):
             }
             #FIXME: right return here?
             return 200, {}, json.dumps(response)
-            #return state_machine
         except AWSError as err:
             return err.response()
 
@@ -67,9 +66,10 @@ class WorkspaceResponse(BaseResponse):
 
     @amzn_request_id
     def stop_workspaces(self):
-        # FIXME: handle multi stop
         result = {'FailedRequests': []}
         reqs = self._get_param("StopWorkspaceRequests")
+        if len(reqs) > 25:
+            raise ClientError("bad")
         for i in reqs:
             workspace_id = i["WorkspaceId"]
             response = self.workspace_backend.stop_workspaces(workspace_id)
@@ -83,42 +83,47 @@ class WorkspaceResponse(BaseResponse):
 
     @amzn_request_id
     def start_workspaces(self):
-            # FIXME: handle multi stop
+        result = {'FailedRequests': []}
         reqs = self._get_param("StartWorkspaceRequests")
-        workspace_id = reqs[0]["WorkspaceId"]
-            #print(workspace_id)
-            #raise AWSError("made it here")
-
-        response = self.workspace_backend.start_workspaces(workspace_id)
-            # response = {"FailedRequests": []}
-
-            # FIXME: is this right?
-            #return 200, {}, json.dumps(response)
-            #print(response)
-        return 200, {}, json.dumps(response)
-
-    @amzn_request_id
-    def reboot_workspaces(self):
-        # FIXME: handle multi stop
-        reqs = self._get_param("RebootWorkspaceRequests")
-        workspace_id = reqs[0]["WorkspaceId"]
-
-        response = self.workspace_backend.reboot_workspaces(workspace_id)
+        if len(reqs) > 25:
+            raise ClientError("bad")
+        for i in reqs:
+            workspace_id = i["WorkspaceId"]
+            response = self.workspace_backend.start_workspaces(workspace_id)
+            result['FailedRequests'] = result['FailedRequests'] + (response['FailedRequests'])
+            #result.setdefault('FailedRequests', []).append(response['FailedRequests'])
         # response = {"FailedRequests": []}
 
         # FIXME: is this right?
-        return 200, {}, json.dumps(response)
+        return 200, {}, json.dumps(result)
+        #return json.dumps(response)
+
+    @amzn_request_id
+    def reboot_workspaces(self):
+        result = {'FailedRequests': []}
+        reqs = self._get_param("RebootWorkspaceRequests")
+        for i in reqs:
+            workspace_id = i["WorkspaceId"]
+            response = self.workspace_backend.reboot_workspaces(workspace_id)
+            result['FailedRequests'] = result['FailedRequests'] + (response['FailedRequests'])
+            #result.setdefault('FailedRequests', []).append(response['FailedRequests'])
+        # response = {"FailedRequests": []}
+
+        # FIXME: is this right?
+        return 200, {}, json.dumps(result)
         #return json.dumps(response)
 
     @amzn_request_id
     def rebuild_workspaces(self):
-        # FIXME: handle multi stop
+        result = {'FailedRequests': []}
         reqs = self._get_param("RebuildWorkspaceRequests")
-        workspace_id = reqs[0]["WorkspaceId"]
-
-        response = self.workspace_backend.rebuild_workspaces(workspace_id)
+        for i in reqs:
+            workspace_id = i["WorkspaceId"]
+            response = self.workspace_backend.rebuild_workspaces(workspace_id)
+            result['FailedRequests'] = result['FailedRequests'] + (response['FailedRequests'])
+            #result.setdefault('FailedRequests', []).append(response['FailedRequests'])
         # response = {"FailedRequests": []}
 
         # FIXME: is this right?
-        return 200, {}, json.dumps(response)
+        return 200, {}, json.dumps(result)
         #return json.dumps(response)
