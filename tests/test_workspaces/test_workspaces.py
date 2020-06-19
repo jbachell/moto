@@ -12,6 +12,7 @@ from __future__ import unicode_literals
 import boto3
 import sure  # noqa
 import datetime
+import json
 
 from datetime import datetime
 from botocore.exceptions import ClientError
@@ -176,14 +177,40 @@ def test_describe_workspaces_returns_created_workspaces():
     print(len(list(lst['Workspaces'])))
     lst["Workspaces"].should.have.length_of(8)
 
-    print(temp)
+    #print(lst)
+    lst = lst['Workspaces']
 
-    client.start_workspaces( StartWorkspaceRequests=[
-                                {
-                                    'WorkspaceId': temp['WorkspaceId']
-                                },
-                            ])
+    #print("made it this far")
+    print(lst[0]['WorkspaceId'])
+    print(lst[0]['State'])
+
+    try:
+        client.start_workspaces( StartWorkspaceRequests=[
+                                    {
+                                        'WorkspaceId': lst[0]['WorkspaceId']
+                                    },
+                                ])
+    except:
+        #print("failed")
+        import sys, traceback
+        traceback.print_exc(file=sys.stdout)
+
+    try:
+        resp = client.stop_workspaces( StopWorkspaceRequests=[
+                                    {
+                                        'WorkspaceId': lst[0]['WorkspaceId']
+                                    },
+                                ])
+    except:
+        import sys, traceback
+        #traceback.print_exc(file=sys.stdout)
+        print("oopies")
+
+    print(resp)
+    print("made it past start")
+
     lst = client.describe_workspaces()
+    lst = lst['Workspaces']
     print(list(lst)[0])
 
 def _get_account_id():
@@ -200,5 +227,444 @@ def _get_default_role():
     return "arn:aws:iam::" + _get_account_id() + ":role/unknown_sf_role"
 
 
+
+global desMock
+global desReal
+
+@mock_workspaces
+def test_comparing_to_real_output():
+    global desMock
+
+    client = boto3.client('workspaces')
+
+    temp = client.create_workspaces(
+                        Workspaces=[{
+                            'DirectoryId': "d-29381asfdw",
+                            'BundleId': "wsb-asd42hfg1",
+                            'UserName': "ajanedoe1"
+                        }]
+                    )
+    #print("here")
+    workspace = client.create_workspaces(
+                        Workspaces=[{
+                            'DirectoryId': "d-29381asfdw",
+                            'BundleId': "wsb-asd42hfg1",
+                            'UserName': "ajanedoe2"
+                        }]
+                    )
+
+    print("\n\n\n")
+    lst = client.describe_workspaces()
+    desMock = lst
+    #print(list(lst['Workspaces'])[0]['WorkspaceId'])
+    #print(list(lst['Workspaces'])[1]['WorkspaceId'])
+
+    resp = client.stop_workspaces( StopWorkspaceRequests=[
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId']
+                                },
+                            ])
+
+    print("\n\n\n")
+    print(resp)
+
+    resp = client.start_workspaces( StartWorkspaceRequests=[
+                                        {
+                                            'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                        },
+                                    ])
+
+    print("\n\n\n")
+    print(resp)
+
+    resp = client.stop_workspaces( StopWorkspaceRequests=[
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                            ])
+
+    print("\n\n\n")
+    print(json.dumps(resp))
+
+    try:
+        to_add = {'WorkspaceId': []}
+        for i in range(30):
+            to_add['WorkspaceId'].append(list(lst['Workspaces'])[0]['WorkspaceId'] + str(i))
+
+        resp = client.stop_workspaces(StopWorkspaceRequests=[{x} for x in to_add])
+
+        print("\n\n\n")
+        print(json.dumps(resp))
+    except:
+        print("\n\n\nYES SUCCESS\n\n\n")
+
+    resp = client.stop_workspaces( StopWorkspaceRequests=[
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                            ])
+
+    print("\n\n\nLAST\n\n\n")
+    print(json.dumps(resp))
+
+
+def test_real():
+    global desReal
+
+    client = boto3.client('workspaces')
+
+    print("\n\n\n")
+    lst = client.describe_workspaces()
+    desReal = lst
+
+    resp = client.start_workspaces( StartWorkspaceRequests=[
+                                        {
+                                            'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId']
+                                        },
+                                    ])
+
+    print("\n\n\n")
+    print(resp)
+
+    resp = client.stop_workspaces( StopWorkspaceRequests=[
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                            ])
+
+    print("\n\n\n")
+    print(json.dumps(resp))
+
+
+    resp = client.stop_workspaces( StopWorkspaceRequests=[
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+                                },
+                                {
+                                    'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+                                },
+                            ])
+
+    print("\n\n\n")
+    print(json.dumps(resp))
+
+    try:
+        to_add = {'WorkspaceId': []}
+        for i in range(30):
+            to_add['WorkspaceId'].append(list(lst['Workspaces'])[0]['WorkspaceId'] + str(i))
+
+        resp = client.stop_workspaces(StopWorkspaceRequests=[{x} for x in to_add])
+
+        print("\n\n\n")
+        print(json.dumps(resp))
+    except:
+        print("\n\n\nYES SUCCESS\n\n\n")
+
+    # to_add = {'WorkspaceId': []}
+    # for i in range(30):
+    #     to_add['WorkspaceId'].append({list(lst['Workspaces'])[0]['WorkspaceId'] + str(i)})
+    #
+    # resp = client.stop_workspaces(StopWorkspaceRequests=to_add)
+    #
+    # print("\n\n\nLAST\n\n\n")
+    # print(json.dumps(resp))
+
+    #print(list(lst['Workspaces'])[0]['WorkspaceId'])
+    #print(list(lst['Workspaces'])[1]['WorkspaceId'])
+
+    # resp = client.stop_workspaces( StopWorkspaceRequests=[
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+    #                             },
+    #                             {
+    #                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+    #                             },
+    #                         ])
+    #
+    # print("\n\n\nLAST\n\n\n")
+    # print(json.dumps(resp))
+
 test_describe_workspaces_returns_empty_list_by_default()
-test_describe_workspaces_returns_created_workspaces()
+#test_describe_workspaces_returns_created_workspaces()
+test_comparing_to_real_output()
+test_real()
+
+# print(desReal)
+# print(desMock)
+
+
+
+
+# resp = client.stop_workspaces( StopWorkspaceRequests=[
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "1"
+#                             },
+#                             {
+#                                 'WorkspaceId': list(lst['Workspaces'])[0]['WorkspaceId'] + "2"
+#                             },
+#                         ])
+#
+# print("\n\n\nLAST\n\n\n")
+# print(json.dumps(resp))
+
+
+
+An error occurred (ValidationException) when calling the StopWorkspaces operation: The request is invalid.
