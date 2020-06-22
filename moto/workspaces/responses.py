@@ -31,6 +31,7 @@ sample_responseMetaData =  {
     }
 }
 
+errValidation = "An error occurred (ValidationException) when calling the StopWorkspaces operation: The request is invalid."
 
 class WorkspaceResponse(BaseResponse):
     @property
@@ -39,23 +40,24 @@ class WorkspaceResponse(BaseResponse):
 
     @amzn_request_id
     def create_workspaces(self):
-        # FIXME: handle multi create
+        result = {'FailedRequests': []}
         workspaces = self._get_param("Workspaces")
-        directory_id = workspaces[0]["DirectoryId"]
-        user_name = workspaces[0]["UserName"]
-        bundle_id = workspaces[0]["BundleId"]
-        # tags = workspaces[0]["tags"]
-        try:
-            state_machine = self.workspace_backend.create_workspaces(
-                directory_id=directory_id, bundle_id=bundle_id, user_name=user_name
-            )
-            response = {
-                "FailedRequests": []
-            }
-            #FIXME: right return here?
-            return 200, {}, json.dumps(response)
-        except AWSError as err:
-            return err.response()
+`       for i in workspaces:
+            directory_id = i["DirectoryId"]
+            user_name = i["UserName"]
+            bundle_id = i["BundleId"]
+            # tags = workspaces[0]["tags"]
+            try:
+                state_machine = self.workspace_backend.create_workspaces(
+                    directory_id=directory_id, bundle_id=bundle_id, user_name=user_name
+                )
+                response = {
+                    "FailedRequests": []
+                }
+                #FIXME: right return here?
+                return 200, {}, json.dumps(response)
+            except AWSError as err:
+                return err.response()
 
     @amzn_request_id
     def describe_workspaces(self):
@@ -63,14 +65,14 @@ class WorkspaceResponse(BaseResponse):
         list_all = self.workspace_backend.describe_workspaces()
 
         response = {"Workspaces": list_all, "ResponseMetadata": sample_responseMetaData}
-        return json.dumps(response)
+        return 200, {}. json.dumps(response)
 
     @amzn_request_id
     def stop_workspaces(self):
         result = {'FailedRequests': []}
         reqs = self._get_param("StopWorkspaceRequests")
         if len(reqs) > 25:
-            raise ClientError("bad")
+            raise ClientError(errValidation)
         for i in reqs:
             workspace_id = i["WorkspaceId"]
             response = self.workspace_backend.stop_workspaces(workspace_id)
@@ -87,7 +89,7 @@ class WorkspaceResponse(BaseResponse):
         result = {'FailedRequests': []}
         reqs = self._get_param("StartWorkspaceRequests")
         if len(reqs) > 25:
-            raise ClientError("bad")
+            raise ClientError(errValidation)
         for i in reqs:
             workspace_id = i["WorkspaceId"]
             response = self.workspace_backend.start_workspaces(workspace_id)
@@ -103,6 +105,8 @@ class WorkspaceResponse(BaseResponse):
     def reboot_workspaces(self):
         result = {'FailedRequests': []}
         reqs = self._get_param("RebootWorkspaceRequests")
+        if len(reqs) > 25:
+            raise ClientError(errValidation)
         for i in reqs:
             workspace_id = i["WorkspaceId"]
             response = self.workspace_backend.reboot_workspaces(workspace_id)
@@ -118,6 +122,8 @@ class WorkspaceResponse(BaseResponse):
     def rebuild_workspaces(self):
         result = {'FailedRequests': []}
         reqs = self._get_param("RebuildWorkspaceRequests")
+        if len(reqs) > 25:
+            raise ClientError(errValidation)
         for i in reqs:
             workspace_id = i["WorkspaceId"]
             response = self.workspace_backend.rebuild_workspaces(workspace_id)

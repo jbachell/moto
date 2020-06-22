@@ -664,7 +664,3 @@ test_real()
 #
 # print("\n\n\nLAST\n\n\n")
 # print(json.dumps(resp))
-
-
-
-An error occurred (ValidationException) when calling the StopWorkspaces operation: The request is invalid.
