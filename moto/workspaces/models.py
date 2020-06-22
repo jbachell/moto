@@ -116,7 +116,7 @@ class WorkspaceBackend(BaseBackend):
 
         lettersAndDigits = string.ascii_letters + string.digits
         workspace_id = 'ws-'+''.join((random.choice(lettersAndDigits) for i in range(10)))
-        ip_address = '0.0.0.0'so you
+        ip_address = '0.0.0.0'
         state = 'STOPPED'
         #state = 'AVAILABLE'
         subnet_id = 'subnet-000000000000000abc'
