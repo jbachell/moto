@@ -42,7 +42,7 @@ class WorkspaceResponse(BaseResponse):
     def create_workspaces(self):
         result = {'FailedRequests': []}
         workspaces = self._get_param("Workspaces")
-`       for i in workspaces:
+        for i in workspaces:
             directory_id = i["DirectoryId"]
             user_name = i["UserName"]
             bundle_id = i["BundleId"]
@@ -62,7 +62,7 @@ class WorkspaceResponse(BaseResponse):
     @amzn_request_id
     def describe_workspaces(self, WorkspaceIds={}, DirectoryId='', UserName='',
         BundleId='', Limit=-1, NextToken=''):
-        
+
         list_all = self.workspace_backend.describe_workspaces()
 
         response = {"Workspaces": list_all, "ResponseMetadata": sample_responseMetaData}
