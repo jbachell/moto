@@ -106,7 +106,7 @@ class WorkspaceBackend(BaseBackend):
             ],
             'ResponseMetadata': sample_responseMetaData
         }
-    # FIXME: add proper params
+
     def create_workspaces(self, directory_id, bundle_id, user_name, tags=None):
         # self._validate_name(name)
         # self._validate_role_arn(roleArn)
@@ -123,7 +123,8 @@ class WorkspaceBackend(BaseBackend):
         computer_name = 'A-0000000000ABC'
         modification_states = []
 
-        workspace = Workspace(workspace_id, directory_id, user_name, ip_address, state, bundle_id, subnet_id, computer_name, modification_states)
+        workspace = Workspace(workspace_id, directory_id, user_name, ip_address, state, bundle_id,
+            subnet_id, computer_name, modification_states)
         self.workspaces.append(workspace)
 
         return workspace
