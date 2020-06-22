@@ -176,11 +176,10 @@ class WorkspaceBackend(BaseBackend):
             for id in userName:
                 temp += list(filter(lambda x: x.bundle_id == id, ret))
             ret = temp
-        # if limit:
-        #     temp = []
-        #     for id in userName:
-        #         temp += list(filter(lambda x: x.user_name == id, ret))
-        #     ret = temp
+        #exception for limit being less than zero should already
+        #be caught in boto3
+        if limit > 0:
+            ret = ret[:limit]
         # if nextToken:
         #     temp = []
         #     for id in userName:
