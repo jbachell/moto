@@ -64,7 +64,7 @@ class WorkspaceResponse(BaseResponse):
         BundleId='', Limit=-1, NextToken=''):
 
         list_all = self.workspace_backend.describe_workspaces(WorkspaceIds, DirectoryId, UserName,
-            BundleId, Limit=-1, NextToken)
+            BundleId, Limit, NextToken)
 
         response = {"Workspaces": list_all, "ResponseMetadata": sample_responseMetaData}
         return json.dumps(response)
