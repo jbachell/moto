@@ -155,7 +155,7 @@ class WorkspaceBackend(BaseBackend):
             ],
             key=lambda x: x["UserName"],
         )
-        return ret
+        # return ret
         if workspaceIds:
             temp = []
             for id in workspaceIds:
@@ -174,18 +174,18 @@ class WorkspaceBackend(BaseBackend):
         if bundleId:
             temp = []
             for id in userName:
-                temp += list(filter(lambda x: x.user_name == id, ret))
+                temp += list(filter(lambda x: x.bundle_id == id, ret))
             ret = temp
-        if limit:
-            temp = []
-            for id in userName:
-                temp += list(filter(lambda x: x.user_name == id, ret))
-            ret = temp
-        if nextToken:
-            temp = []
-            for id in userName:
-                temp += list(filter(lambda x: x.user_name == id, ret))
-            ret = temp
+        # if limit:
+        #     temp = []
+        #     for id in userName:
+        #         temp += list(filter(lambda x: x.user_name == id, ret))
+        #     ret = temp
+        # if nextToken:
+        #     temp = []
+        #     for id in userName:
+        #         temp += list(filter(lambda x: x.user_name == id, ret))
+        #     ret = temp
 
         return ret
 
