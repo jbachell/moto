@@ -66,7 +66,7 @@ class WorkspaceResponse(BaseResponse):
         list_all = self.workspace_backend.describe_workspaces()
 
         response = {"Workspaces": list_all, "ResponseMetadata": sample_responseMetaData}
-        return 200, {}. json.dumps(response)
+        return json.dumps(response)
 
     @amzn_request_id
     def stop_workspaces(self):
