@@ -116,7 +116,7 @@ class WorkspaceBackend(BaseBackend):
 
         lettersAndDigits = string.ascii_letters + string.digits
         workspace_id = 'ws-'+''.join((random.choice(lettersAndDigits) for i in range(10)))
-        ip_address = '0.0.0.0'
+        ip_address = '0.0.0.0'so you
         state = 'STOPPED'
         #state = 'AVAILABLE'
         subnet_id = 'subnet-000000000000000abc'
@@ -155,7 +155,7 @@ class WorkspaceBackend(BaseBackend):
             ],
             key=lambda x: x["UserName"],
         )
-        # return ret
+
         if workspaceIds:
             temp = []
             for id in workspaceIds:
@@ -178,10 +178,10 @@ class WorkspaceBackend(BaseBackend):
             ret = temp
         #exception for limit being less than zero should already
         #be caught in boto3
-        print("\n\n\nBEFORE\n\n\n")
+        #print("\n\n\nBEFORE\n\n\n")
         if limit > 0:
             ret = ret[:limit]
-            print("\n\n\nhtesting\n\n\n")
+            print("\n\n\nin limit if branch\n\n\n")
             print(ret)
         # if nextToken:
         #     temp = []

@@ -54,18 +54,28 @@ class WorkspaceResponse(BaseResponse):
                 response = {
                     "FailedRequests": []
                 }
+                #FIXME: getting error response and printing result
+                #result  = ???
                 #FIXME: right return here?
-                return 200, {}, json.dumps(response)
             except AWSError as err:
                 return err.response()
+
+        return 200, {}, json.dumps(response)
 
     @amzn_request_id
     def describe_workspaces(self, WorkspaceIds=[], DirectoryId='', UserName='',
         BundleId='', Limit=-1, NextToken=''):
 
-        print("\n\n\n" + str(Limit) + "\n\n\n")
-        list_all = self.workspace_backend.describe_workspaces(WorkspaceIds, DirectoryId, UserName,
-            BundleId, Limit, NextToken)
+        workspaceIds = self._get_param("WorkspaceIds")
+        directoryId = self._get_param("DirectoryId")
+        userName = self._get_param("UserName")
+        bundleId = self._get_param("BundleId")
+        limit = self._get_param("Limit")
+        nextToken = self._get_param("NextToken")
+
+        #print("\n\n\n" + str(Limit) + "\n\n\n")
+        list_all = self.workspace_backend.describe_workspaces(workspaceIds, directoryId, userName,
+            bundleId, limit, nextToken)
 
         response = {"Workspaces": list_all, "ResponseMetadata": sample_responseMetaData}
         return json.dumps(response)
