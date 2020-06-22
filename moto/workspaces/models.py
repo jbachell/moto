@@ -180,9 +180,8 @@ class WorkspaceBackend(BaseBackend):
         #be caught in boto3
         #print("\n\n\nBEFORE\n\n\n")
         if limit > 0:
-            ret = ret[:limit]
-            print("\n\n\nin limit if branch\n\n\n")
-            print(ret)
+            ret = dict(ret.items()[:limit])
+
         # if nextToken:
         #     temp = []
         #     for id in userName:
