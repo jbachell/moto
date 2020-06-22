@@ -63,6 +63,7 @@ class WorkspaceResponse(BaseResponse):
     def describe_workspaces(self, WorkspaceIds=[], DirectoryId='', UserName='',
         BundleId='', Limit=-1, NextToken=''):
 
+        print("\n\n\n" + str(Limit) + "\n\n\n")
         list_all = self.workspace_backend.describe_workspaces(WorkspaceIds, DirectoryId, UserName,
             BundleId, Limit, NextToken)
 
