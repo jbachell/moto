@@ -60,10 +60,11 @@ class WorkspaceResponse(BaseResponse):
                 return err.response()
 
     @amzn_request_id
-    def describe_workspaces(self, WorkspaceIds={}, DirectoryId='', UserName='',
+    def describe_workspaces(self, WorkspaceIds=[], DirectoryId='', UserName='',
         BundleId='', Limit=-1, NextToken=''):
 
-        list_all = self.workspace_backend.describe_workspaces()
+        list_all = self.workspace_backend.describe_workspaces(WorkspaceIds={}, DirectoryId='', UserName='',
+            BundleId='', Limit=-1, NextToken='')
 
         response = {"Workspaces": list_all, "ResponseMetadata": sample_responseMetaData}
         return json.dumps(response)

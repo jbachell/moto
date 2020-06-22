@@ -129,8 +129,9 @@ class WorkspaceBackend(BaseBackend):
 
         return workspace
 
-    def describe_workspaces(self):
-        return sorted(
+    def describe_workspaces(self, workspaceIds, directoryId, userName,
+        bundleId, limit, nextToken):
+        ret = sorted(
             [
                 {
                     "WorkspaceId": ws.workspace_id,
@@ -154,6 +155,40 @@ class WorkspaceBackend(BaseBackend):
             ],
             key=lambda x: x["UserName"],
         )
+
+        if workspaceIds:
+            temp = []
+            for id in workspaceIds:
+                temp += list(filter(lambda x: x.workspace_id == id, ret))
+            ret = temp
+
+        if directoryId:
+            temp = []
+            for id in directoryId:
+                temp += list(filter(lambda x: x.directory_id == id, ret))
+            ret = temp
+        if userName:
+            temp = []
+            for id in userName:
+                temp += list(filter(lambda x: x.user_name == id, ret))
+            ret = temp
+        if bundleId:
+            temp = []
+            for id in userName:
+                temp += list(filter(lambda x: x.user_name == id, ret))
+            ret = temp
+        if limit:
+            temp = []
+            for id in userName:
+                temp += list(filter(lambda x: x.user_name == id, ret))
+            ret = temp
+        if nextToken:
+            temp = []
+            for id in userName:
+                temp += list(filter(lambda x: x.user_name == id, ret))
+            ret = temp
+
+        return ret
 
     def stop_workspaces(self, id):
         #FIXME: can be more efficient??
