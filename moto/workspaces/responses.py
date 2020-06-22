@@ -71,6 +71,8 @@ class WorkspaceResponse(BaseResponse):
         userName = self._get_param("UserName")
         bundleId = self._get_param("BundleId")
         limit = self._get_param("Limit")
+        if not limit:
+            limit = -1
         nextToken = self._get_param("NextToken")
 
         #print("\n\n\n" + str(Limit) + "\n\n\n")
