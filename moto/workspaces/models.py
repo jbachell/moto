@@ -180,7 +180,7 @@ class WorkspaceBackend(BaseBackend):
         #be caught in boto3
         #print("\n\n\nBEFORE\n\n\n")
         if limit > 0:
-            ret = dict(ret.items()[:limit])
+            ret = ret[:limit]
 
         # if nextToken:
         #     temp = []
