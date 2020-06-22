@@ -155,13 +155,12 @@ class WorkspaceBackend(BaseBackend):
             ],
             key=lambda x: x["UserName"],
         )
-
+        return ret
         if workspaceIds:
             temp = []
             for id in workspaceIds:
                 temp += list(filter(lambda x: x.workspace_id == id, ret))
             ret = temp
-
         if directoryId:
             temp = []
             for id in directoryId:

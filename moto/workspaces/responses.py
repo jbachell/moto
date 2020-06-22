@@ -43,18 +43,14 @@ class WorkspaceResponse(BaseResponse):
         result = {'FailedRequests': []}
         workspaces = self._get_param("Workspaces")
         for i in workspaces:
-            print("\n\n\nhere\n\n\n")
             directory_id = i["DirectoryId"]
-            print(i["DirectoryId"])
             user_name = i["UserName"]
             bundle_id = i["BundleId"]
             # tags = workspaces[0]["tags"]
-
             try:
                 state_machine = self.workspace_backend.create_workspaces(
                     directory_id=directory_id, bundle_id=bundle_id, user_name=user_name
                 )
-                print(state_machine)
                 response = {
                     "FailedRequests": []
                 }
