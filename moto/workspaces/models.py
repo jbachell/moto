@@ -178,6 +178,7 @@ class WorkspaceBackend(BaseBackend):
             ret = temp
         #exception for limit being less than zero should already
         #be caught in boto3
+        print("\n\n\nBEFORE\n\n\n")
         if limit > 0:
             ret = ret[:limit]
             print("\n\n\nhtesting\n\n\n")
