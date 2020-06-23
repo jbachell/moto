@@ -56,7 +56,7 @@ class WorkspaceResponse(BaseResponse):
             try:
                 state_machine = self.workspace_backend.create_workspaces(
                     directory_id=directory_id, bundle_id=bundle_id, user_name=user_name,
-                    tags, workspaceProperties, rootEncEnabled, userEncEnabled, volumeKey)
+                    tags, workspaceProperties, rootEncEnabled, userEncEnabled, volumeKey
                 )
                 response = {
                     "FailedRequests": []
