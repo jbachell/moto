@@ -42,7 +42,9 @@ sample_responseMetaData =  {
 
 
 class Workspace:
-    def __init__(self, workspace_id, directory_id, user_name, ip_address, state, bundle_id, subnet_id, computer_name, modification_states):
+    def __init__(self, workspace_id, directory_id, user_name, ip_address, state,
+        bundle_id, subnet_id, computer_name, modification_states, workspaceProperties,
+        rootEncEnabled, userEncEnabled, volumeKey):
         self.workspace_id = workspace_id
         self.directory_id = directory_id
         self.user_name = user_name
@@ -52,6 +54,24 @@ class Workspace:
         self.subnet_id = subnet_id
         self.computer_name = computer_name
         self.modification_states = modification_states
+
+        if workspaceProperties:
+            self.workspaceProperties = workspaceProperties
+        else:
+            self.workspaceProperties = {
+                "RunningMode": "AUTO_STOP",
+                "RunningModeAutoStopTimeoutInMinutes": 60,
+                "RootVolumeSizeGib": 80,
+                "UserVolumeSizeGib": 50,
+                "ComputeTypeName": "STANDARD"
+            }
+
+        if volumeKey:
+            self.volumeKey = volumeKey
+            if userEncEnabled:
+                self.userEncEnabled = userEncEnabled
+            if rootEncEnabled:
+                self.rootEncEnabled = rootEncEnabled
 
     def resp_workspace_invalid_state(self):
         return {'FailedRequests': [
@@ -107,7 +127,8 @@ class WorkspaceBackend(BaseBackend):
             'ResponseMetadata': sample_responseMetaData
         }
 
-    def create_workspaces(self, directory_id, bundle_id, user_name, tags=None):
+    def create_workspaces(self, directory_id, bundle_id, user_name, tags,
+        workspaceProperties, rootEncEnabled, userEncEnabled, volumeKey):
         # self._validate_name(name)
         # self._validate_role_arn(roleArn)
         # try:
@@ -124,7 +145,8 @@ class WorkspaceBackend(BaseBackend):
         modification_states = []
 
         workspace = Workspace(workspace_id, directory_id, user_name, ip_address, state, bundle_id,
-            subnet_id, computer_name, modification_states)
+            subnet_id, computer_name, modification_states, workspaceProperties, rootEncEnabled,
+            userEncEnabled, volumeKey)
         self.workspaces.append(workspace)
 
         return workspace
@@ -142,14 +164,8 @@ class WorkspaceBackend(BaseBackend):
                     "BundleId": ws.bundle_id,
                     "SubnetId": ws.subnet_id,
                     "ComputerName": ws.computer_name,
-                    "WorkspaceProperties": {
-                        "RunningMode": "AUTO_STOP",
-                        "RunningModeAutoStopTimeoutInMinutes": 60,
-                        "RootVolumeSizeGib": 80,
-                        "UserVolumeSizeGib": 50,
-                        "ComputeTypeName": "STANDARD"
-                    },
-                    "ModificationStates": []
+                    "WorkspaceProperties": ws.workspaceProperties,
+                    "ModificationStates": ws.modification_states
                 }
                 for ws in self.workspaces
             ],

@@ -42,6 +42,12 @@ class WorkspaceResponse(BaseResponse):
     def create_workspaces(self):
         result = {'FailedRequests': []}
         workspaces = self._get_param("Workspaces")
+        volumeKey = self._get_param("VolumeEncryptionKey")
+        userEncEnabled = self._get_param("UserVolumeEncryptionEnabled")
+        rootEncEnabled = self._get_param("RootVolumeEncryptionEnabled")
+        workspaceProperties = self._get_param("WorkspaceProperties")
+        tags = self._get_param("Tags")
+
         for i in workspaces:
             directory_id = i["DirectoryId"]
             user_name = i["UserName"]
@@ -49,7 +55,8 @@ class WorkspaceResponse(BaseResponse):
             # tags = workspaces[0]["tags"]
             try:
                 state_machine = self.workspace_backend.create_workspaces(
-                    directory_id=directory_id, bundle_id=bundle_id, user_name=user_name
+                    directory_id=directory_id, bundle_id=bundle_id, user_name=user_name,
+                    tags, workspaceProperties, rootEncEnabled, userEncEnabled, volumeKey)
                 )
                 response = {
                     "FailedRequests": []
