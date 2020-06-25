@@ -203,8 +203,8 @@ class WorkspaceBackend(BaseBackend):
                 ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' +
                 ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' +
                 ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' +
-                ''.join((random.choice(lettersAndDigits) for i in range(12))) + '-' +
-                
+                ''.join((random.choice(lettersAndDigits) for i in range(12)))
+
 7d5dedc0-d7ed-4ab8-959c-e5138023aecb
         return ret
 
