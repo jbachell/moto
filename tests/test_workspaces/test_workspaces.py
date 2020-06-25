@@ -235,7 +235,10 @@ global desReal
 def test_comparing_to_real_output():
     global desMock
 
-    client = boto3.client('workspaces')
+    client = boto3.client('workspaces', region_name=region,
+                              aws_access_key_id='id3',
+                              aws_secret_access_key='secret3',
+                              aws_session_token='token3')
 
     temp = client.create_workspaces(
                         Workspaces=[{
@@ -319,7 +322,7 @@ def test_comparing_to_real_output():
 def test_real():
     global desReal
 
-    client = boto3.client('workspaces')
+    client = boto3.client('workspaces', region_name=region)
 
     print("\n\n\n")
     lst = client.describe_workspaces()
@@ -399,7 +402,7 @@ def test_real():
 test_describe_workspaces_returns_empty_list_by_default()
 #test_describe_workspaces_returns_created_workspaces()
 test_comparing_to_real_output()
-test_real()
+#test_real()
 
 # print(desReal)
 # print(desMock)
