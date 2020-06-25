@@ -53,6 +53,7 @@ class WorkspaceResponse(BaseResponse):
             user_name = i["UserName"]
             bundle_id = i["BundleId"]
             # tags = workspaces[0]["tags"]
+
             try:
                 state_machine = self.workspace_backend.create_workspaces(
                     directory_id=directory_id, bundle_id=bundle_id, user_name=user_name,
@@ -83,7 +84,6 @@ class WorkspaceResponse(BaseResponse):
             limit = -1
         nextToken = self._get_param("NextToken")
 
-        #print("\n\n\n" + str(Limit) + "\n\n\n")
         list_all = self.workspace_backend.describe_workspaces(workspaceIds, directoryId, userName,
             bundleId, limit, nextToken)
 

@@ -194,15 +194,14 @@ class WorkspaceBackend(BaseBackend):
             ret = temp
         #exception for limit being less than zero should already
         #be caught in boto3
-        #print("\n\n\nBEFORE\n\n\n")
         if limit > 0:
             ret = ret[:limit]
 
-        # if nextToken:
-        #     temp = []
-        #     for id in userName:
-        #         temp += list(filter(lambda x: x.user_name == id, ret))
-        #     ret = temp
+        if nextToken:
+            temp = []
+            for id in userName:
+                temp += list(filter(lambda x: x.user_name == id, ret))
+            ret = temp
 
         return ret
 
