@@ -199,13 +199,12 @@ class WorkspaceBackend(BaseBackend):
 
         if nextToken:
             lettersAndDigits = string.ascii_letters[:6] + string.digits
-            ret['NextToken'] = ''.join((random.choice(lettersAndDigits) for i in range(8))) + '-' +
-                ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' +
-                ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' +
-                ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' +
-                ''.join((random.choice(lettersAndDigits) for i in range(12)))
+            ret['NextToken'] = ''.join((random.choice(lettersAndDigits) for i in range(8))) + '-' \
+                + ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' \
+                + ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' \
+                + ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' \
+                + ''.join((random.choice(lettersAndDigits) for i in range(12))) + '-'
 
-7d5dedc0-d7ed-4ab8-959c-e5138023aecb
         return ret
 
     def stop_workspaces(self, id):
