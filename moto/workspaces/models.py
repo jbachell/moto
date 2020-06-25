@@ -136,7 +136,7 @@ class WorkspaceBackend(BaseBackend):
         # except WorkspaceDoesNotExist:
 
         lettersAndDigits = string.ascii_letters + string.digits
-        workspace_id = 'ws-'+''.join((random.choice(lettersAndDigits) for i in range(10)))
+        workspace_id = 'ws-'+ ''.join((random.choice(lettersAndDigits) for i in range(10)))
         ip_address = '0.0.0.0'
         state = 'STOPPED'
         #state = 'AVAILABLE'
@@ -198,11 +198,14 @@ class WorkspaceBackend(BaseBackend):
             ret = ret[:limit]
 
         if nextToken:
-            temp = []
-            for id in userName:
-                temp += list(filter(lambda x: x.user_name == id, ret))
-            ret = temp
-
+            lettersAndDigits = string.ascii_letters[:6] + string.digits
+            ret['NextToken'] = ''.join((random.choice(lettersAndDigits) for i in range(8))) + '-' +
+                ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' +
+                ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' +
+                ''.join((random.choice(lettersAndDigits) for i in range(4))) + '-' +
+                ''.join((random.choice(lettersAndDigits) for i in range(12))) + '-' +
+                
+7d5dedc0-d7ed-4ab8-959c-e5138023aecb
         return ret
 
     def stop_workspaces(self, id):
