@@ -47,7 +47,7 @@ def test_boto3_workspaces():
 
 #@mock_workspaces
 def wrapper_func():
-    print("Calling boto3.workspaces!")
+    print("Calling boto3 workspaces!")
 
     test_boto3_workspaces()
 
