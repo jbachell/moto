@@ -26,17 +26,9 @@ from moto.core import ACCOUNT_ID
 #
 #
 
-def test_real():
-    client = boto3.client('workspaces')
-
-    lst = client.describe_workspaces()
-
-    print(lst)
 
 
-
-@mock_workspaces
-def test_mock():
+def test_boto3_workspaces():
     client = boto3.client('workspaces')
 
     temp = client.create_workspaces(
@@ -51,6 +43,10 @@ def test_mock():
 
     print(lst)
 
+@mock_workspaces
+wrapper_func():
+    print("Calling boto3.workspaces!")
 
-test_real()
-# test_mock()
+    test_boto3_workspaces()
+
+wrapper_fun()
